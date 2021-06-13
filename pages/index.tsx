@@ -1,10 +1,14 @@
-// import styles from '../styles/Home.module.css'
+import styles from '../styles/Home.module.scss'
 
+import { useEffect } from 'react';
 import { GetStaticProps } from 'next'
 // import Head from 'next/head'
 //import Image from 'next/image'
 
 import { api } from '../pages/api/api';
+
+import SearchBar from '../components/SearchBar';
+import PokemonItem from '../components/PokemonItem';
 
 type Pokemon = {
   name: string,
@@ -12,28 +16,37 @@ type Pokemon = {
 }
 
 type HomeProps = {
-  pokemonList: Pokemon[]
+  pokemons: Pokemon[]
 }
 
-export default function Home(pokemons: HomeProps) {
-  console.log(pokemons, 'a')
+export default function Home({pokemons}: HomeProps) {
   return (
-    <div>
-      <h1>A</h1>
+    <div className={styles.homePage}>
+      <img className={styles.pokedexLogo} 
+            src="./sprites/type/pokeball.png" 
+            alt="pokedex icon" 
+            width="70"
+      />
+      <SearchBar/>
+      <div className={styles.pokemonList}>
+        { pokemons.map((pokemon: Pokemon) => {
+          return ( 
+            <PokemonItem key={pokemon.name} name={pokemon.name} url={pokemon.url}/> 
+          )
+        }) }
+      </div>
     </div>
   )
 }
 
-export const getStaticProps:GetStaticProps = async() => {
-  // params contains the post `id`.
-  // If the route is like /posts/1, then params.id is 1
+export const getStaticProps: GetStaticProps = async () => {
   const { data } = await api.get(`pokemon/?offset=0&limit=151`);
+  const pokemons = data.results;
 
-  // Pass post data to the page via props
-  return { 
-    props: { 
-      data
+  return {
+    props: {
+      pokemons,
     },
-    revalidate: 1
-  }
-}
+    revalidate: 1,
+  };
+};

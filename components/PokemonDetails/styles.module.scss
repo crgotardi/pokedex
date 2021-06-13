@@ -1,0 +1,126 @@
+.pokemonDetails {
+  min-height: 100vh;
+
+  margin-left: 30vw;
+  padding: 2%;
+
+  background-color: var(--gray-800);
+
+  .pokemonHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    max-height: 100px;
+    padding: 1.5rem;
+
+    border-radius: 12px;
+    background-color: var(--grass-type);
+
+    .pokemonImage {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .pokemonType img:first-child {
+      margin-right: .5rem;
+    }
+  }
+
+  .pokemonBody {
+    margin-top: 2.5rem;
+    padding: 1.5rem;
+
+    background-color: var(--gray-500);
+    background-image: url('../../public/pokemon-icon-background.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 12px;
+
+    .chip {
+      display: inline-block;
+
+      margin-bottom: 1rem;
+      padding: .5rem 1.5rem;
+
+      border-radius: 50px;
+      background-color: var(--red-500);
+      font-weight: 600;
+    }
+
+    .pokemonInfo {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+
+      margin-bottom: 1rem;
+
+      * {
+        &:first-child { 
+          flex: 1;
+        }
+
+        &:last-child { 
+          flex: 1;
+        }
+      }
+
+      .pokemonStatusList {
+        .pokemonStatusItem {
+          display: grid;
+          grid-template-columns: 1fr 4fr 1fr;
+          align-items: center;
+          margin-bottom: .3rem;
+          width: 100%;
+
+          p {
+            text-align: left;
+            font-weight: 600;
+            display: inline;
+            &:last-child {
+              text-align: right;
+            }
+          }
+
+          .pokemonStatusBar {
+            max-width: 100%;
+            
+            display: inline-flex;
+            height: 12px;
+            border-radius: 50px;
+            background-color: var(--red-500);
+          }
+        }
+
+      }
+
+    }
+
+    .pokemonEvolutionChain {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 1rem;
+
+      div {
+        text-align: center;
+      }
+    }
+
+    .pokemonTypeChart {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3rem;
+
+      div {
+        text-align: center;
+
+        img {
+          margin-top: .5rem;
+        }
+      }
+    }
+  }
+}

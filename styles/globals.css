@@ -1,16 +1,88 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
+:root {
+  --white:#fff;
 
-a {
-  color: inherit;
-  text-decoration: none;
+  --gray-50:#f7f8fa;
+  --gray-100:#e6e8eb;
+  --gray-200:#afb2b1;
+  --gray-500:#404040;
+  --gray-800:#222222;
+	
+  --red-500:#F38075;
+
+  --grass-type:#78C850;
+  --fire-type:#F08030;
+  --water-type:#6890F0;
+  --normal-type:#A8A878;
+  --fighting-type:#C03028;
+  --flying-type:#A890F0;
+  --poison-type:#A040A0;
+  --electric-type:#EFC82E;
+  --ground-type:#E0C068;
+  --psychic-type:#F85888;
+  --rock-type:#B8A038;
+  --ice-type:#98D8D8;
+  --bug-type:#A8B820;
+  --dragon-type:#7038F8;
+  --ghost-type:#705898;
+  --dark-type:#705848;
+  --steel-type:#B8B8D0;
+	--fairy-type: #EE99AC;
 }
 
 * {
+	margin: 0;
+  padding: 0;
   box-sizing: border-box;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+  font-family: Lato, sans-serif;
+}
+
+h1, h2, p {
+	color: var(--white);
+  font-family: Lato, sans-serif;
+}
+
+h1 {
+	font-size: 2rem;
+}
+
+h2 {
+	font-size: 1.2rem;
+}
+
+p {
+	font-size: 1rem;
+}
+
+@media (max-width: 1080px ) {
+  html {
+    font-size: 93.75%;
+  }
+}
+
+/* Scrollbar Style */
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--gray-500);
+  border-radius: 8px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--red-500); 
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--red-500); 
 }
