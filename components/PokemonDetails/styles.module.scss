@@ -20,10 +20,22 @@
     .pokemonImage {
       text-align: center;
       margin-top: 50px;
+      img {
+        width: 35%;
+      }
     }
 
     .pokemonType img:first-child {
       margin-right: .5rem;
+    }
+
+    .closeButton {
+      background-color: transparent;
+      color: var(--white);
+      font-size: 1.5rem;
+      border: none;
+      cursor: pointer;
+      display: none;
     }
   }
 
@@ -51,6 +63,7 @@
     .pokemonInfo {
       display: flex;
       justify-content: space-between;
+      flex-wrap: wrap;
       gap: 1rem;
 
       margin-bottom: 1rem;
@@ -91,20 +104,27 @@
             background-color: var(--red-500);
           }
         }
-
       }
 
     }
 
     .pokemonEvolutionChain {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
 
       margin-bottom: 1rem;
 
       div {
         text-align: center;
+      }
+
+      span {
+        color: #fff;
+      }
+
+      img {
+        width: 30%;
       }
     }
 
@@ -122,5 +142,42 @@
         }
       }
     }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .pokemonDetails {
+    width: 100vw;
+    z-index: 10;
+    margin-left: 0;
+    position: absolute;
+  }
+
+  .pokemonHeader {
+    .closeButton {
+      display: block !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .pokemonHeader {
+    .pokemonImage img {
+      width: 120px !important;
+    }
+  }
+
+  .pokemonBody {
+    .pokemonInfo {
+      flex-direction: column !important;
+    }
+
+    .pokemonEvolutionChain img {
+      width: 60px !important;
+    }
+  }
+
+  .pokemonEvolutionChain {
+    justify-content: space-around !important;
   }
 }

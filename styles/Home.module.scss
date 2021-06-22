@@ -34,3 +34,10 @@
     overflow-y: auto;
   }
 }
+
+@media only screen and (max-width: 768px) {
+  .homePage {
+    width: 100vw;
+    z-index: 10;
+  }
+}

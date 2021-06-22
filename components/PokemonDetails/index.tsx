@@ -13,6 +13,12 @@ type PokemonTypesData = {
   }
 }
 
+type PokemonSpecieData = {
+  species: {
+    url: string
+  }
+}
+
 type PokemonStatsData = {
   base_stat: number,
   stat: {
@@ -21,13 +27,28 @@ type PokemonStatsData = {
 }
 
 type PokemonEvolutionChainData = {
-  evolutionDetail: PokemonEvolutionDetailsData[],
-  evolvesTo: PokemonEvolutionChainData[],
-  isBaby: boolean,
+  evolutionDetail: PokemonEvolutionDetailsData[];
+  evolvesTo: PokemonEvolutionChainData[];
+  isBaby: boolean;
   species: {
-    name: string,
-    url: string
-  }
+    name: string;
+    url: string;
+  };
+  chain?: {
+    name: "";
+    url: "";
+    id: 0;
+  };
+  evolution1?: {
+    name?: "";
+    url?: "";
+    id?: 0;
+  };
+  evolution2?: {
+    name?: "";
+    url?: "";
+    id?: 0;
+  };
 };
 
 type PokemonEvolutionDetailsData = {
@@ -62,10 +83,31 @@ type PokemonDetailsData = {
   evolution: PokemonEvolutionChainData
 }
 
-function PokemonDetails() {
-  const { url } = usePokemonDetails();
+const initialState = {
+  id: 0,
+  name: "",
+  description: "",
+  types: [],
+  stats: [],
+  evolution: {
+    evolutionDetail: [],
+    evolvesTo: [],
+    isBaby: false,
+    species: {
+      name: "",
+      url: "",
+    },
+  },
+};
 
-  const [pokemonDetailsData, setPokemonDetailsData] = useState({})
+function PokemonDetails() {
+  const { url, zIndex, setZIndexComponent } = usePokemonDetails();
+
+  const [pokemonDetailsData, setPokemonDetailsData] = useState<PokemonDetailsData>(initialState)
+
+  function resetPokemonDetailsData() {
+    setZIndexComponent(0);
+  }
 
   useEffect(() => {
     if (url) {
@@ -91,20 +133,33 @@ function PokemonDetails() {
                 console.log(data)
                 let evolution = {};
                 evolution = {
-                  chain: data.chain.species,
-                  evolution1: { 
-                    chain: data.chain?.evolves_to[0].species,
-                    trigger: 'TO-DO'
+                  chain: {
+                    ...data.chain.species,
+                    id: parseInt(data.chain.species.url.split("/", 7)[6])
                   },
-                  evolution2: data.chain?.evolves_to[0]?.evolves_to[0].species,
+                  evolution1: {
+                    ...data?.chain?.evolves_to[0]?.species,
+                    id: parseInt(
+                      data?.chain?.evolves_to[0]?.species.url.split("/", 7)[6]
+                    ),
+                  },
+                  evolution2: {
+                    ...data?.chain?.evolves_to[0]?.evolves_to[0]?.species,
+                    id: parseInt(
+                      data?.chain?.evolves_to[0]?.evolves_to[0]?.species.url.split(
+                        "/",
+                        7
+                      )[6]
+                    ),
+                  },
                 };
 
                 pokemonDetails = {
                   ...pokemonDetails,
                   evolution
                 };
-                setPokemonDetailsData(pokemonDetails as PokemonDetailsData);
-                console.log(pokemonDetails)
+
+                setPokemonDetailsData(pokemonDetails);
               })
               .catch((error) => {
                 console.log(error);
@@ -120,14 +175,30 @@ function PokemonDetails() {
     }
   }, [url])
 
+
   return (
-    <section className={styles.pokemonDetails}>
-      <div className={styles.pokemonHeader}>
+    <section className={styles.pokemonDetails} style={{ zIndex: zIndex }}>
+      <div
+        className={styles.pokemonHeader}
+        style={{
+          backgroundColor: `var(--${pokemonDetailsData?.types[0]?.type?.name}-type)`,
+        }}
+      >
         <div className={styles.pokemonTitle}>
           <h1>{pokemonDetailsData?.name}</h1>
           <div className={styles.pokemonType}>
-            <img src="./sprites/type/icon-grass-type.png" alt="Pokemon type" />
-            <img src="./sprites/type/icon-poison-type.png" alt="Pokemon type" />
+            {pokemonDetailsData?.types[0]?.type?.name && (
+              <img
+                src={`./sprites/type/icon-${pokemonDetailsData.types[0].type.name}-type.png`}
+                alt="Pokemon type"
+              />
+            )}
+            {pokemonDetailsData?.types[1]?.type?.name && (
+              <img
+                src={`./sprites/type/icon-${pokemonDetailsData.types[1].type.name}-type.png`}
+                alt="Pokemon type"
+              />
+            )}
           </div>
         </div>
         <div className={styles.pokemonImage}>
@@ -135,89 +206,97 @@ function PokemonDetails() {
             <img
               src={`./sprites/pokemon/official-artwork/${pokemonDetailsData.id}.png`}
               alt="Pokemon Image"
-              width="35%"
             />
           ) : (
             ""
           )}
         </div>
+        <button
+          className={styles.closeButton}
+          onClick={() => {
+            resetPokemonDetailsData();
+          }}
+        >
+          ✖
+        </button>
       </div>
-      <div className={styles.pokemonBody}>
-        <p className={styles.chip}>Info</p>
-        <div className={styles.pokemonInfo}>
-          <p>{pokemonDetailsData?.description}</p>
-          <div className={styles.pokemonStatusList}>
-            {pokemonDetailsData?.stats?.map((stat: any) => {
-              return (
-                <div key={stat.stat.name} className={styles.pokemonStatusItem}>
-                  <p>{stat.stat.name}</p>
+      {pokemonDetailsData.name && (
+        <div className={styles.pokemonBody}>
+          <p className={styles.chip}>Info</p>
+          <div className={styles.pokemonInfo}>
+            <p>{pokemonDetailsData?.description}</p>
+            <div className={styles.pokemonStatusList}>
+              {pokemonDetailsData?.stats?.map((stat: any) => {
+                return (
                   <div
-                    className={styles.pokemonStatusBar}
-                    style={{ width: stat.base_stat + "%" }}
+                    key={stat.stat.name}
+                    className={styles.pokemonStatusItem}
                   >
-                    <p> </p>
+                    <p>{stat.stat.name}</p>
+                    <div
+                      className={styles.pokemonStatusBar}
+                      style={{ width: stat.base_stat + "%" }}
+                    >
+                      <p> </p>
+                    </div>
+                    <p>{stat.base_stat}</p>
                   </div>
-                  <p>{stat.base_stat}</p>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
-        <div className={styles.pokemonEvolutionChain}>
-          <div>
-            <img
-              src={`./sprites/pokemon/official-artwork/${pokemonDetailsData?.id}.png`}
-              alt="Pokemon Image"
-              width="30%"
-            />
-            <p>
-              <strong>{pokemonDetailsData?.name}</strong>
-            </p>
-            <p>&nbsp;</p>
-          </div>
-          {pokemonDetailsData.evolution?.chain?.evolves_to?.map((evolve) => {
-            return (
+          <div className={styles.pokemonEvolutionChain}>
+            {pokemonDetailsData.evolution.chain ? (
               <div>
                 <img
-                  src={`./sprites/pokemon/official-artwork/2.png`}
+                  src={`./sprites/pokemon/official-artwork/${pokemonDetailsData?.evolution.chain.id}.png`}
                   alt="Pokemon Image"
-                  width="30%"
+                />
+                <p>
+                  <strong>{pokemonDetailsData?.evolution.chain.name}</strong>
+                </p>
+                <p>&nbsp;</p>
+              </div>
+            ) : (
+              ""
+            )}
+            {pokemonDetailsData?.evolution.evolution1?.name && <span>→</span>}
+            {pokemonDetailsData.evolution.evolution1?.name ? (
+              <div>
+                <img
+                  src={`./sprites/pokemon/official-artwork/${pokemonDetailsData?.evolution.evolution1.id}.png`}
+                  alt="Pokemon Image"
                 />
                 <p>
                   <strong>
-                    {
-                      evolve.species?.url?.split("/")[
-                        evolve.species?.url?.split("/").length
-                      ]
-                    }
+                    {pokemonDetailsData?.evolution.evolution1.name}
                   </strong>
                 </p>
-                <p>Lv 16</p>
+                <p>&nbsp;</p>
               </div>
-            );
-          })}
+            ) : (
+              ""
+            )}
+            {pokemonDetailsData?.evolution.evolution2?.name && <span>→</span>}
+            {pokemonDetailsData.evolution.evolution2?.name ? (
+              <div>
+                <img
+                  src={`./sprites/pokemon/official-artwork/${pokemonDetailsData?.evolution.evolution2.id}.png`}
+                  alt="Pokemon Image"
+                />
+                <p>
+                  <strong>
+                    {pokemonDetailsData?.evolution.evolution2.name}
+                  </strong>
+                </p>
+                <p>&nbsp;</p>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
-        <div className={styles.pokemonTypeChart}>
-          <div>
-            <p>
-              <strong>X2 Damage</strong>
-            </p>
-            <img src="./sprites/type/icon-grass-type.png" alt="Pokemon type" />
-          </div>
-          <div>
-            <p>
-              <strong>X½ Damage</strong>
-            </p>
-            <img src="./sprites/type/icon-grass-type.png" alt="Pokemon type" />
-          </div>
-          <div>
-            <p>
-              <strong>X¼ Damage</strong>
-            </p>
-            <img src="./sprites/type/icon-grass-type.png" alt="Pokemon type" />
-          </div>
-        </div>
-      </div>
+      )}
     </section>
   );
 }
