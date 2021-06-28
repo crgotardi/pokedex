@@ -27,7 +27,7 @@ export default function PokemonItem({name, url}: Pokemon) {
         {
           pokemonId ? (
             <img
-              src={`./sprites/pokemon/official-artwork/${pokemonId}.png`}
+              src={`./official-artwork/${pokemonId}.png`}
               alt="Pokemon Image"
               width="50"
             />
