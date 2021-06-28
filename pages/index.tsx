@@ -33,7 +33,7 @@ export default function Home({pokemons}: HomeProps) {
   return (
     <div className={styles.homePage}>
       <img className={styles.pokedexLogo} 
-            src="./sprites/type/pokeball.png" 
+            src="./type/pokeball.png" 
             alt="pokedex icon" 
             width="70"
       />
