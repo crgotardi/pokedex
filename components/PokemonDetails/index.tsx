@@ -130,7 +130,6 @@ function PokemonDetails() {
             api
               .get(data.evolution_chain.url)
               .then(({ data }) => {
-                console.log(data)
                 let evolution = {};
                 evolution = {
                   chain: {
@@ -189,13 +188,13 @@ function PokemonDetails() {
           <div className={styles.pokemonType}>
             {pokemonDetailsData?.types[0]?.type?.name && (
               <img
-                src={`./sprites/type/icon-${pokemonDetailsData.types[0].type.name}-type.png`}
+                src={`./type/icon-${pokemonDetailsData.types[0].type.name}-type.png`}
                 alt="Pokemon type"
               />
             )}
             {pokemonDetailsData?.types[1]?.type?.name && (
               <img
-                src={`./sprites/type/icon-${pokemonDetailsData.types[1].type.name}-type.png`}
+                src={`./type/icon-${pokemonDetailsData.types[1].type.name}-type.png`}
                 alt="Pokemon type"
               />
             )}
@@ -204,7 +203,7 @@ function PokemonDetails() {
         <div className={styles.pokemonImage}>
           {pokemonDetailsData.id ? (
             <img
-              src={`./sprites/pokemon/official-artwork/${pokemonDetailsData.id}.png`}
+              src={`./official-artwork/${pokemonDetailsData.id}.png`}
               alt="Pokemon Image"
             />
           ) : (
@@ -249,7 +248,7 @@ function PokemonDetails() {
             {pokemonDetailsData.evolution.chain ? (
               <div>
                 <img
-                  src={`./sprites/pokemon/official-artwork/${pokemonDetailsData?.evolution.chain.id}.png`}
+                  src={`./official-artwork/${pokemonDetailsData?.evolution.chain.id}.png`}
                   alt="Pokemon Image"
                 />
                 <p>
@@ -264,7 +263,7 @@ function PokemonDetails() {
             {pokemonDetailsData.evolution.evolution1?.name ? (
               <div>
                 <img
-                  src={`./sprites/pokemon/official-artwork/${pokemonDetailsData?.evolution.evolution1.id}.png`}
+                  src={`./official-artwork/${pokemonDetailsData?.evolution.evolution1.id}.png`}
                   alt="Pokemon Image"
                 />
                 <p>
@@ -281,7 +280,7 @@ function PokemonDetails() {
             {pokemonDetailsData.evolution.evolution2?.name ? (
               <div>
                 <img
-                  src={`./sprites/pokemon/official-artwork/${pokemonDetailsData?.evolution.evolution2.id}.png`}
+                  src={`./official-artwork/${pokemonDetailsData?.evolution.evolution2.id}.png`}
                   alt="Pokemon Image"
                 />
                 <p>
